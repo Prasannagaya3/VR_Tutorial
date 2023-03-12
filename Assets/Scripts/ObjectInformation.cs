@@ -1,30 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
 
-public class ObjectInformation : MonoBehaviour
+public class ObjectInformation : XRGrabInteractable
 {
-    [SerializeField] private TextMeshProUGUI _displayObjectName;
-    private string defaultText, selectedText;
+    [SerializeField] private Transform leftAttachPoint, rightAttachPoint;
+    [SerializeField] private string displayInfo;
+    public ObjectDisplay ObjectDisplayInfo;
 
-    private void Start()
+    protected override void OnHoverEntered(HoverEnterEventArgs args)
     {
-        defaultText = "Select any object";
-        selectedText = this.gameObject.name;
-        SelectedObjectName(false);
+        ObjectDisplayInfo.DisplayObjectName.text = displayInfo;
+        base.OnHoverEntered(args);
     }
 
-    public void SelectedObjectName(bool state)
+    protected override void OnHoverExited(HoverExitEventArgs args)
     {
-        if(state)
-        {
-            _displayObjectName.text = selectedText;
-        }
-        else
-        {
-            _displayObjectName.text = defaultText;
-        }
+        ObjectDisplayInfo.DisplayObjectName.text = ObjectDisplayInfo.DisplayObjectReset;
+        base.OnHoverExited(args);
     }
 
+    protected override void OnSelectEntered(SelectEnterEventArgs args)
+    {
+        if (args.interactorObject.transform.CompareTag("LeftHand"))
+        {
+            attachTransform = leftAttachPoint;
+        }
+        if (args.interactorObject.transform.CompareTag("RightHand"))
+        {
+            attachTransform = rightAttachPoint;
+        }
+        base.OnSelectEntered(args);
+    }
 }
