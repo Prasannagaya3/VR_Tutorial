@@ -8,6 +8,7 @@ public class CollisionWithFire : MonoBehaviour
         if (collision.transform.CompareTag("Bowl") && FireFoam.canDestroy)
         {
             Destroy(FireBowl);
+            Destroy(this.gameObject, 2f);
         }
     }
 }
