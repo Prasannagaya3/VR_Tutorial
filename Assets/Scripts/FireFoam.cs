@@ -20,7 +20,7 @@ public class FireFoam : MonoBehaviour
     private void SpawnFoam(ActivateEventArgs arg)
     {
         spawn = Instantiate(fireFoam);
-        particleDuration = spawn.GetComponent<ParticleSystem>().duration;
+        particleDuration = spawn.GetComponent<ParticleSystem>().main.duration;
         spawn.transform.SetParent(transform, false);
         spawn.transform.position = spawnPoint.position;
 
